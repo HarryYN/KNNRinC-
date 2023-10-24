@@ -1,0 +1,14 @@
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\bin\Debug\net7.0\TestProject.exe
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\bin\Debug\net7.0\TestProject.deps.json
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\bin\Debug\net7.0\TestProject.runtimeconfig.json
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\bin\Debug\net7.0\TestProject.dll
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\bin\Debug\net7.0\TestProject.pdb
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\obj\Debug\net7.0\TestProject.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\obj\Debug\net7.0\TestProject.AssemblyInfoInputs.cache
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\obj\Debug\net7.0\TestProject.AssemblyInfo.cs
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\obj\Debug\net7.0\TestProject.csproj.CoreCompileInputs.cache
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\obj\Debug\net7.0\TestProject.dll
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\obj\Debug\net7.0\refint\TestProject.dll
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\obj\Debug\net7.0\TestProject.pdb
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\obj\Debug\net7.0\TestProject.genruntimeconfig.cache
+C:\Users\hzhu\OneDrive - SOTI Inc\Documents\C code\CsharpProjects\TestProject\obj\Debug\net7.0\ref\TestProject.dll
