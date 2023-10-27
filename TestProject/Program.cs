@@ -9,51 +9,47 @@ namespace KNNregression
     {
       Console.WriteLine("\nBegin weighted k-NN regression ");
 
-      // 1. load data into memory
-      Console.WriteLine("\nLoading train and test data ");
-      string trainFile = "Data//synthetic_train.txt";
-      double[][] trainX = Utils.MatLoad(trainFile,
-        new int[] { 0, 1 }, ',', "#");
-      double[] trainY = Utils.MatToVec(Utils.MatLoad(trainFile,
-        new int[] { 2 }, ',', "#"));
+      string[] trainNums= {"1000","2000","4000","8000"};
+      string[] testNums= {"500","1000","2000"};
+      int[] kValues= {1,3,5,7};
+      string resultFilePath = "Data//result.txt";
+      StreamWriter sw = new StreamWriter(resultFilePath,false);
+      sw.WriteLine("k,numTrain,numTest,time");
 
-      string testFile = "Data//synthetic_test.txt";
-      double[][] testX = Utils.MatLoad(testFile,
-        new int[] { 0, 1 }, ',', "#");
-      double[] testY = Utils.MatToVec(Utils.MatLoad(testFile,
-        new int[] { 2 }, ',', "#"));
-      Console.WriteLine("Done ");
+      foreach (string trainNum in trainNums)
+      {
+        foreach (string testNum in testNums)
+        {
+          foreach (int kValue in kValues)
+          {
+            Console.WriteLine("\nLoading "+trainNum+" train and "+testNum+" test data ");
+            string traindata = "Data//synthetic_train_"+trainNum+".txt";
+            double[][] trainX = Utils.MatLoad(traindata,
+              new int[] { 0, 1 }, ',', "#");
+            double[] trainY = Utils.MatToVec(Utils.MatLoad(traindata,
+              new int[] { 2 }, ',', "#"));
 
-      Console.WriteLine("\nFirst three train X: ");
-      for (int i = 0; i < 3; ++i)
-        Utils.VecShow(trainX[i], 4, 9, true);
+            string testdata = "Data//synthetic_test_"+testNum+".txt";
+            double[][] testX = Utils.MatLoad(testdata,
+              new int[] { 0, 1 }, ',', "#");
+            double[] testY = Utils.MatToVec(Utils.MatLoad(testdata,
+              new int[] { 2 }, ',', "#"));
+            Console.WriteLine("Done ");
 
-      Console.WriteLine("\nFirst three target y: ");
-      for (int i = 0; i < 3; ++i)
-        Console.WriteLine(trainY[i].ToString("F4"));
-
-      // 2. find a good k value
       double accTrain = 0.0;
       double accTest = 0.0;
       double rmseTrain = 0.0;
       double rmseTest = 0.0;
-      
-
-      Console.WriteLine("\nExploring k values (acc " +
-        "within 0.15) ");
-      Console.WriteLine("");
-      int[] candidates = new int[] { 1, 3, 5, 7 };
-      foreach (int k in candidates)
-      {
-        Console.Write("k = " + k);
-        DateTime startTime = DateTime.Now;
-        KNNR model = new KNNR(k, "skewed");
+                    DateTime startTime = DateTime.Now;
+        KNNR model = new KNNR(kValue, "skewed");
         model.Store(trainX, trainY);  // no need after first
         // accTrain = Accuracy(model, trainX, trainY, 0.15);
         accTest = Accuracy(model, testX, testY, 0.15);
         // rmseTrain = RootMSE(model, trainX, trainY);
         DateTime endTime = DateTime.Now;
         TimeSpan duration = endTime - startTime;
+        sw.WriteLine(kValue+","+trainNum+","+testNum+","+duration.TotalMilliseconds);
+        
         rmseTest = RootMSE(model, testX, testY);
 
         // Console.Write("  Acc train = " +
@@ -65,39 +61,97 @@ namespace KNNregression
         Console.Write("  RMSE test = " +
           rmseTest.ToString("F4"));
         Console.WriteLine("Time Duration: " + duration.TotalMilliseconds + " milliseconds");
-        
+          }
+        }
       }
+      sw.Close();
 
-      // 3. create and pseudo-train model
-      Console.WriteLine("\nCreating k-NN regression" +
-        " model k = 5 weighting = skewed ");
-      KNNR knnr_model = new KNNR(5, "skewed");
-      Console.WriteLine("Done ");
-
-      Console.WriteLine("\nStoring train data into model ");
-      knnr_model.Store(trainX, trainY);
-      Console.WriteLine("Done ");
-
-      // 4. evaluate model
-      Console.WriteLine("\nComputing accuracy (within 0.15) ");
-      accTrain = Accuracy(knnr_model, trainX, trainY, 0.15);
-      Console.WriteLine("Accuracy train = " +
-        accTrain.ToString("F4"));
-      accTest = Accuracy(knnr_model, testX, testY, 0.15);
-      Console.WriteLine("Accuracy test = " +
-        accTest.ToString("F4"));
-
-      // 5. use model
-      Console.WriteLine("\nExplaining for " +
-        "x = (0.5, -0.5) ");
-      double[] x = 
-        new double[] { 0.5, -0.5};
-      knnr_model.Explain(x);
+      // 1. load data into memory
       
-      // 6. TODO: save model to file
+      // string trainFile = "Data//synthetic_train.txt";
+      // double[][] trainX = Utils.MatLoad(trainFile,
+      //   new int[] { 0, 1 }, ',', "#");
+      // double[] trainY = Utils.MatToVec(Utils.MatLoad(trainFile,
+      //   new int[] { 2 }, ',', "#"));
 
-      Console.WriteLine("\nEnd demo ");
-      Console.ReadLine();
+      // string testFile = "Data//synthetic_test.txt";
+      // double[][] testX = Utils.MatLoad(testFile,
+      //   new int[] { 0, 1 }, ',', "#");
+      // double[] testY = Utils.MatToVec(Utils.MatLoad(testFile,
+      //   new int[] { 2 }, ',', "#"));
+      // Console.WriteLine("Done ");
+
+      // Console.WriteLine("\nFirst three train X: ");
+      // for (int i = 0; i < 3; ++i)
+      //   Utils.VecShow(trainX[i], 4, 9, true);
+
+      // Console.WriteLine("\nFirst three target y: ");
+      // for (int i = 0; i < 3; ++i)
+      //   Console.WriteLine(trainY[i].ToString("F4"));
+
+      // 2. find a good k value
+
+      
+
+      // Console.WriteLine("\nExploring k values (acc " +
+      //   "within 0.15) ");
+      // Console.WriteLine("");
+      // int[] candidates = new int[] { 1, 3, 5, 7 };
+      // foreach (int k in candidates)
+      // {
+      //   Console.Write("k = " + k);
+      //   DateTime startTime = DateTime.Now;
+      //   KNNR model = new KNNR(k, "skewed");
+      //   model.Store(trainX, trainY);  // no need after first
+      //   // accTrain = Accuracy(model, trainX, trainY, 0.15);
+      //   accTest = Accuracy(model, testX, testY, 0.15);
+      //   // rmseTrain = RootMSE(model, trainX, trainY);
+      //   DateTime endTime = DateTime.Now;
+      //   TimeSpan duration = endTime - startTime;
+      //   rmseTest = RootMSE(model, testX, testY);
+
+      //   // Console.Write("  Acc train = " +
+      //   //   accTrain.ToString("F4"));
+      //   Console.Write("  Acc test = " +
+      //     accTest.ToString("F4"));
+      //   // Console.Write("  RMSE train = " +
+      //   //   rmseTrain.ToString("F4"));
+      //   Console.Write("  RMSE test = " +
+      //     rmseTest.ToString("F4"));
+      //   Console.WriteLine("Time Duration: " + duration.TotalMilliseconds + " milliseconds");
+        
+      // }
+
+      // // 3. create and pseudo-train model
+      // Console.WriteLine("\nCreating k-NN regression" +
+      //   " model k = 5 weighting = skewed ");
+      // KNNR knnr_model = new KNNR(5, "skewed");
+      // Console.WriteLine("Done ");
+
+      // Console.WriteLine("\nStoring train data into model ");
+      // knnr_model.Store(trainX, trainY);
+      // Console.WriteLine("Done ");
+
+      // // 4. evaluate model
+      // Console.WriteLine("\nComputing accuracy (within 0.15) ");
+      // accTrain = Accuracy(knnr_model, trainX, trainY, 0.15);
+      // Console.WriteLine("Accuracy train = " +
+      //   accTrain.ToString("F4"));
+      // accTest = Accuracy(knnr_model, testX, testY, 0.15);
+      // Console.WriteLine("Accuracy test = " +
+      //   accTest.ToString("F4"));
+
+      // // 5. use model
+      // Console.WriteLine("\nExplaining for " +
+      //   "x = (0.5, -0.5) ");
+      // double[] x = 
+      //   new double[] { 0.5, -0.5};
+      // knnr_model.Explain(x);
+      
+      // // 6. TODO: save model to file
+
+      // Console.WriteLine("\nEnd demo ");
+      // Console.ReadLine();
     } // Main
 
     static double Accuracy(KNNR model, double[][] dataX,
